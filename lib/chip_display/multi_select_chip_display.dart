@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../util/horizontal_scrollbar.dart';
 import '../util/multi_select_item.dart';
@@ -127,6 +129,7 @@ class MultiSelectChipDisplay<V> extends StatelessWidget {
   }
 
   Widget _buildItem(MultiSelectItem<V> item, BuildContext context) {
+    log("key:from package ${key}");
     return Container(
       padding: const EdgeInsets.all(2.0),
       child: ChoiceChip(
