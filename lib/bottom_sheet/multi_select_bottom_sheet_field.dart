@@ -12,7 +12,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final BoxDecoration? decoration;
 
   /// Set text that is displayed on the button.
-  final Text? buttonText;
+  final Widget? buttonText;
 
   /// Specify the button icon.
   final Icon? buttonIcon;
@@ -199,7 +199,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
 // ignore: must_be_immutable
 class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final BoxDecoration? decoration;
-  final Text? buttonText;
+  final Widget? buttonText;
   final Icon? buttonIcon;
   final List<MultiSelectItem<V>> items;
   final List<V> initialValue;
