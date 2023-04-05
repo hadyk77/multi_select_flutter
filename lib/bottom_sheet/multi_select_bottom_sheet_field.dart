@@ -112,6 +112,8 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   final GlobalKey<FormFieldState>? key;
   FormFieldState<List<V>>? state;
 
+  final bool readOnly;
+
   MultiSelectBottomSheetField({
     required this.items,
     required this.onConfirm,
@@ -149,6 +151,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
     this.onSaved,
     this.validator,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.readOnly = false,
   }) : super(
             key: key,
             onSaved: onSaved,
@@ -158,6 +161,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
             builder: (FormFieldState<List<V>> state) {
               _MultiSelectBottomSheetFieldView view =
                   _MultiSelectBottomSheetFieldView<V>(
+                readOnly: readOnly,
                 items: items,
                 decoration: decoration,
                 unselectedColor: unselectedColor,
@@ -231,46 +235,48 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final Color? checkColor;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
+  final bool readOnly;
 
-  _MultiSelectBottomSheetFieldView({
-    required this.items,
-    this.title,
-    this.buttonText,
-    this.buttonIcon,
-    this.listType,
-    this.decoration,
-    this.onSelectionChanged,
-    this.onConfirm,
-    this.chipDisplay,
-    required this.initialValue,
-    required this.searchable,
-    this.confirmText,
-    this.cancelText,
-    this.selectedColor,
-    this.initialChildSize,
-    this.minChildSize,
-    this.maxChildSize,
-    this.shape,
-    this.barrierColor,
-    this.searchHint,
-    this.colorator,
-    this.backgroundColor,
-    this.unselectedColor,
-    this.searchIcon,
-    this.closeSearchIcon,
-    this.itemsTextStyle,
-    this.searchTextStyle,
-    this.searchHintStyle,
-    this.selectedItemsTextStyle,
-    required this.separateSelectedItems,
-    this.checkColor,
-    required this.isDismissible,
-  });
+  _MultiSelectBottomSheetFieldView(
+      {required this.items,
+      this.title,
+      this.buttonText,
+      this.buttonIcon,
+      this.listType,
+      this.decoration,
+      this.onSelectionChanged,
+      this.onConfirm,
+      this.chipDisplay,
+      required this.initialValue,
+      required this.searchable,
+      this.confirmText,
+      this.cancelText,
+      this.selectedColor,
+      this.initialChildSize,
+      this.minChildSize,
+      this.maxChildSize,
+      this.shape,
+      this.barrierColor,
+      this.searchHint,
+      this.colorator,
+      this.backgroundColor,
+      this.unselectedColor,
+      this.searchIcon,
+      this.closeSearchIcon,
+      this.itemsTextStyle,
+      this.searchTextStyle,
+      this.searchHintStyle,
+      this.selectedItemsTextStyle,
+      required this.separateSelectedItems,
+      this.checkColor,
+      required this.isDismissible,
+      required this.readOnly});
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
   _MultiSelectBottomSheetFieldView._withState(
       _MultiSelectBottomSheetFieldView<V> field, FormFieldState<List<V>> state)
       : items = field.items,
+        readOnly = field.readOnly,
         title = field.title,
         buttonText = field.buttonText,
         buttonIcon = field.buttonIcon,
@@ -435,8 +441,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             maxChildSize: widget.maxChildSize,
           );
         });
-    print(myVar.toString());
-    _selectedItems = myVar!;
+    if (myVar != null) _selectedItems = myVar;
   }
 
   @override
@@ -446,7 +451,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
       children: <Widget>[
         InkWell(
           onTap: () {
-            _showBottomSheet(context);
+            if (!widget.readOnly) _showBottomSheet(context);
           },
           child: Container(
             decoration: widget.state != null
