@@ -35,6 +35,10 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   /// Toggles search functionality.
   final bool searchable;
 
+
+  /// Toggle Showing selected chips.
+  final bool showSelectedChips;
+
   /// Text on the confirm button.
   final Text? confirmText;
 
@@ -117,6 +121,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
   MultiSelectBottomSheetField({
     required this.items,
     required this.onConfirm,
+    this.showSelectedChips = true,
     this.title,
     this.buttonText,
     this.buttonIcon,
@@ -163,6 +168,7 @@ class MultiSelectBottomSheetField<V> extends FormField<List<V>> {
                   _MultiSelectBottomSheetFieldView<V>(
                 readOnly: readOnly,
                 items: items,
+                    showSelectedChips: showSelectedChips,
                 decoration: decoration,
                 unselectedColor: unselectedColor,
                 colorator: colorator,
@@ -232,6 +238,7 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
   final TextStyle? searchTextStyle;
   final TextStyle? searchHintStyle;
   final bool separateSelectedItems;
+  final bool showSelectedChips;
   final Color? checkColor;
   final bool isDismissible;
   FormFieldState<List<V>>? state;
@@ -270,14 +277,15 @@ class _MultiSelectBottomSheetFieldView<V> extends StatefulWidget {
       required this.separateSelectedItems,
       this.checkColor,
       required this.isDismissible,
-      required this.readOnly});
+      required this.readOnly, this.showSelectedChips = true});
 
   /// This constructor allows a FormFieldState to be passed in. Called by MultiSelectBottomSheetField.
   _MultiSelectBottomSheetFieldView._withState(
-      _MultiSelectBottomSheetFieldView<V> field, FormFieldState<List<V>> state)
+      _MultiSelectBottomSheetFieldView<V> field, FormFieldState<List<V>> state,)
       : items = field.items,
         readOnly = field.readOnly,
         title = field.title,
+        showSelectedChips = field.showSelectedChips,
         buttonText = field.buttonText,
         buttonIcon = field.buttonIcon,
         listType = field.listType,
@@ -487,6 +495,7 @@ class __MultiSelectBottomSheetFieldViewState<V>
             ),
           ),
         ),
+        if(widget.showSelectedChips)
         _buildInheritedChipDisplay(),
         widget.state != null && widget.state!.hasError
             ? SizedBox(height: 5)
